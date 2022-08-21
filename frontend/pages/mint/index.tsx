@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import styles from "./style.module.scss";
-import { Card, Illustration, Button, IllustrationProps } from "@web3uikit/core";
+import { Card, Illustration, Button, IllustrationProps, useNotification, notifyType, IPosition } from "@web3uikit/core";
+import { Web3Context } from "../../contexts/Web3Context";
 
 enum MintOption {
   NONE,
@@ -15,6 +16,40 @@ const cards: { type: MintOption; title: string; props: IllustrationProps }[] = [
 
 export default function Mint() {
   const [selected, setSelected] = useState<MintOption>(MintOption.NONE);
+  const { myTokenContract, myNFTContract } = useContext(Web3Context);
+
+  const dispatch = useNotification();
+
+  const onMint = {
+    [MintOption.ERC20]: async () => {
+      await myTokenContract.mint(1);
+      handleNewNotification("Token minted!", "success", undefined, "topL");
+    },
+    [MintOption.ERC721]: async () => {
+      await myNFTContract.mint(1);
+      handleNewNotification("NFT minted!", "success", undefined, "topL");
+    },
+  };
+
+  async function handleMint() {
+    try {
+      await onMint[selected]();
+    } catch (error) {
+      handleNewNotification(error.message, "error", undefined, "topL");
+    } finally {
+      setSelected(MintOption.NONE);
+    }
+  }
+
+  const handleNewNotification = (message: string, type: notifyType, icon?: React.ReactElement, position?: IPosition) => {
+    dispatch({
+      type,
+      message,
+      title: "New Notification",
+      icon,
+      position: position || "topR",
+    });
+  };
 
   function renderCards() {
     return cards.map(({ type, title, props }) => (
@@ -32,7 +67,7 @@ export default function Mint() {
     <section className={styles.mint}>
       <div className={styles.options}>{renderCards()}</div>
       <div className={styles.button}>
-        <Button onClick={() => console.log("mint")} disabled={selected === MintOption.NONE} theme="primary" size="large" text="Mint" />
+        <Button onClick={() => handleMint()} disabled={selected === MintOption.NONE} theme="primary" size="large" text="Mint" />
       </div>
     </section>
   );
