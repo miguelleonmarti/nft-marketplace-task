@@ -1,0 +1,25 @@
+.mint {
+    width: 100%;
+    
+    .options {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        row-gap: 1rem;
+        column-gap: 1rem;
+        padding: 1rem 0;
+
+        .option {
+            min-width: 200px;
+        }
+    }
+    
+    .button {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem 0;
+    }
+}
