@@ -4,14 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "typechain": "sh scripts/copyTypechain.sh"
+    "typechain": "sh scripts/copyTypechain.sh",
+    "deploy:token": "npx hardhat clean && npx hardhat compile && npx hardhat run scripts/deployMyToken.ts --network goerli",
+    "deploy:nft": "npx hardhat clean && npx hardhat compile && npx hardhat run scripts/deployMyNFT.ts --network goerli"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@nomiclabs/hardhat-ethers": "^2.1.1",
+    "@nomiclabs/hardhat-etherscan": "^3.1.0",
     "@openzeppelin/contracts": "^4.7.3",
+    "dotenv": "^16.0.1",
     "erc721a": "^4.2.2",
     "hardhat": "^2.10.2"
   }
