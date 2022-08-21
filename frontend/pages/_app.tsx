@@ -7,6 +7,7 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { app } from "../config";
+import Navbar from "../components/Navbar";
 
 const { chains, provider } = configureChains([chain.polygon], [alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]);
 
@@ -32,6 +33,7 @@ function Web3Wrapper({ children }: { children: ReactNode }) {
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Web3Wrapper>
+      <Navbar />
       <Component {...pageProps} />
     </Web3Wrapper>
   );
