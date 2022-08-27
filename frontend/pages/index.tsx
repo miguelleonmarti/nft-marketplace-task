@@ -6,6 +6,7 @@ import { Web3Context } from "../contexts/Web3Context";
 import { useAccount } from "wagmi";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import useNotifications from "../hooks/notifications";
+import { truncateEthAddress } from "../utils/address";
 
 const BuyButton = ({ handleOnClick, signedOrder }) => {
   return <Button onClick={() => handleOnClick(signedOrder)} theme="secondary" size="large" text="Buy"></Button>;
@@ -16,13 +17,6 @@ const Home: NextPage = () => {
   const { swapSdk } = useContext(Web3Context);
   const { address } = useAccount();
   const { notifyOrderFilled, notifyError } = useNotifications();
-
-  function truncateEthAddress(address: string) {
-    const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
-    const match = address.match(truncateRegex);
-    if (!match) return address;
-    return `${match[1]}…${match[2]}`;
-  }
 
   async function handleBuy(signedOrder: any) {
     try {

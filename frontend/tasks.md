@@ -1,0 +1,6 @@
+- Cambiar modelo base de datos
+- Hacer un adapter en caso de tener que utilizar el protocolo original sin sdk
+- Hacer listing
+- Poner comentarios
+- Hacer documentación
+- Añadir metadatos si hay tiempo
