@@ -5,6 +5,7 @@ export default function useNotifications(): {
   notifyOrderCancelled: () => void;
   notifyOrderFilled: () => void;
   notifyError: (message: string) => void;
+  notifyNoWalletConnection: () => void;
 } {
   const dispatch = useNotification();
 
@@ -37,5 +38,7 @@ export default function useNotifications(): {
         title: "New Notification",
         position: "topL",
       }),
+    notifyNoWalletConnection: () =>
+      dispatch({ type: "info", message: "You have to connect your wallet", title: "New Notification", position: "topL" }),
   };
 }
