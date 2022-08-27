@@ -16,6 +16,14 @@ const config: HardhatUserConfig = {
       url: `https://goerli.infura.io/v3/${INFURA_API_KEY}`,
       accounts: [PRIVATE_KEY],
     },
+    rinkeby: {
+      url: `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`,
+      accounts: [PRIVATE_KEY],
+    },
+    ropsten: {
+      url: `https://ropsten.infura.io/v3/${INFURA_API_KEY}`,
+      accounts: [PRIVATE_KEY],
+    },
   },
   etherscan: {
     apiKey: ETHERSCAN_API_KEY,

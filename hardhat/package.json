@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "typechain": "sh scripts/copyTypechain.sh",
-    "deploy:token": "npx hardhat clean && npx hardhat compile && npx hardhat run scripts/deployMyToken.ts --network goerli",
-    "deploy:nft": "npx hardhat clean && npx hardhat compile && npx hardhat run scripts/deployMyNFT.ts --network goerli"
+    "deploy:token": "npx hardhat clean && npx hardhat compile && npx hardhat run scripts/deployMyToken.ts --network ropsten",
+    "deploy:nft": "npx hardhat clean && npx hardhat compile && npx hardhat run scripts/deployMyNFT.ts --network ropsten"
   },
   "author": "",
   "license": "MIT",
