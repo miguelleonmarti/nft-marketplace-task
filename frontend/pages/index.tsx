@@ -2,13 +2,13 @@ import type { NextPage } from "next";
 import { useState, useEffect, useContext } from "react";
 import styles from "../styles/Home.module.scss";
 import { Table, Button } from "@web3uikit/core";
-import { Web3Context } from "../contexts/Web3Context";
+import { Web3Context } from "@/contexts/Web3Context";
 import { useAccount } from "wagmi";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
-import useNotifications from "../hooks/notifications";
-import { truncateEthAddress } from "../utils/address";
-import useOrderAPI from "../hooks/useOrderAPI";
-import { Order } from "../interfaces";
+import useNotifications from "@/hooks/notifications";
+import { truncateEthAddress } from "@/utils/address";
+import useOrderAPI from "@/hooks/useOrderAPI";
+import { Order } from "@/interfaces/index";
 
 const BuyButton = ({ handleOnClick, signedOrder }) => {
   return <Button onClick={() => handleOnClick(signedOrder)} theme="secondary" size="large" text="Buy"></Button>;
@@ -80,7 +80,8 @@ const Home: NextPage = () => {
     }
 
     getOrdersData();
-  }, [address, getOrders]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   return (
     <section className={styles.main}>

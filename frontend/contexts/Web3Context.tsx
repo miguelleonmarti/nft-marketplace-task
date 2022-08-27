@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { MyToken, MyToken__factory, MyNFT, MyNFT__factory } from "../lib/typechain-types";
+import { MyToken, MyToken__factory, MyNFT, MyNFT__factory } from "@/lib/typechain-types";
 import { useSigner, useProvider } from "wagmi";
 import { app } from "../config";
 import { NftSwapV4 } from "@traderxyz/nft-swap-sdk";

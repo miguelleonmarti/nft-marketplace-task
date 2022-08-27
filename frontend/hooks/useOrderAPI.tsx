@@ -1,4 +1,4 @@
-import { Order } from "../interfaces";
+import { Order } from "@/interfaces/index";
 
 export default function useOrderAPI(): { getOrders: () => Promise<any>; createOrder: (order: Order) => Promise<any> } {
   return {

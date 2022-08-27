@@ -111,7 +111,8 @@ export default function Profile() {
 
     getNfts();
     getOrdersData();
-  }, [address, getOrders]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [address]);
 
   return (
     <section className={styles.profile}>

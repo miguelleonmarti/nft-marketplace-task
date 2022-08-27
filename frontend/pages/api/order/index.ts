@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../lib/prisma";
-import { Order } from "../../../interfaces";
+import prisma from "@/lib/prisma";
+import { Order } from "@/interfaces/index";
 
 // POST /api/order
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {

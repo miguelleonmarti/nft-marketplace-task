@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import styles from "./style.module.scss";
 import { Card, Illustration, Button, IllustrationProps, useNotification, notifyType, IPosition } from "@web3uikit/core";
-import { Web3Context } from "../../contexts/Web3Context";
+import { Web3Context } from "@/contexts/Web3Context";
 
 enum MintOption {
   NONE,

@@ -7,10 +7,10 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { app } from "../config";
-import Navbar from "../components/Navbar";
-import Web3ContextProvider from "../contexts/Web3Context";
+import Navbar from "@/components/Navbar";
+import Web3ContextProvider from "@/contexts/Web3Context";
 import { NotificationProvider } from "@web3uikit/core";
-import Footer from "../components/Footer";
+import Footer from "@/components/Footer";
 
 const { chains, provider } = configureChains([chain.ropsten], [alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]);
 
