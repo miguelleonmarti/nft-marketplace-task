@@ -1,18 +1,16 @@
 import styles from "./style.module.scss";
 import { useState, useEffect, useContext } from "react";
-import { Table, Button, Typography, Modal } from "@web3uikit/core";
-import { getNftsForOwner } from "../../utils/alchemy";
+import { Table, Button, Typography } from "@web3uikit/core";
+import { getNftsForOwner } from "@/utils/alchemy";
 import { useAccount } from "wagmi";
 import { app } from "../../config";
-import { Web3Context } from "../../contexts/Web3Context";
-import SellModal from "../../components/SellModal";
+import { Web3Context } from "@/contexts/Web3Context";
+import SellModal from "@/components/SellModal";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
-import { truncateEthAddress } from "../../utils/address";
-import useNotifications from "../../hooks/notifications";
-import useOrderAPI from "../../hooks/useOrderAPI";
-import { Order } from "../../interfaces";
-
-const header: string[] = ["Address", "Token ID", "Actions"];
+import { truncateEthAddress } from "@/utils/address";
+import useNotifications from "@/hooks/notifications";
+import useOrderAPI from "@/hooks/useOrderAPI";
+import { Order } from "@/interfaces/index";
 
 const SellButton = ({ handleOnClick, tokenAddress, tokenId }) => {
   return <Button onClick={() => handleOnClick(tokenAddress, tokenId)} theme="secondary" size="large" text="Sell"></Button>;
@@ -99,7 +97,6 @@ export default function Profile() {
       const onlyAddressAndTokenId = ({ contract: { address }, tokenId }) => ({ address, tokenId });
       const sameContract = ({ address }) => address === app.nftAddress.toLowerCase();
       const { ownedNfts } = await getNftsForOwner(address);
-      console.log(ownedNfts);
       const validNfts = ownedNfts.map(onlyAddressAndTokenId).filter(sameContract);
       setNfts(validNfts);
     }
@@ -114,6 +111,14 @@ export default function Profile() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address]);
 
+  if (!address) {
+    return (
+      <section className={styles.profile}>
+        <Typography variant="h1">You need to connect the wallet</Typography>
+      </section>
+    );
+  }
+
   return (
     <section className={styles.profile}>
       <Typography variant="h2" style={{ margin: "1rem" }}>
@@ -123,7 +128,7 @@ export default function Profile() {
         columnsConfig="4fr 1fr 1fr"
         isLoading={!nfts}
         data={formatNftData()}
-        header={header}
+        header={["Address", "Token ID", "Actions"]}
         isColumnSortable={[true, true, false]}
         maxPages={3}
         pageSize={5}
