@@ -10,6 +10,7 @@ import { app } from "../config";
 import Navbar from "../components/Navbar";
 import Web3ContextProvider from "../contexts/Web3Context";
 import { NotificationProvider } from "@web3uikit/core";
+import Footer from "../components/Footer";
 
 const { chains, provider } = configureChains([chain.ropsten], [alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]);
 
@@ -39,6 +40,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <NotificationProvider>
           <Navbar />
           <Component {...pageProps} />
+          <Footer />
         </NotificationProvider>
       </Web3ContextProvider>
     </Web3Wrapper>
