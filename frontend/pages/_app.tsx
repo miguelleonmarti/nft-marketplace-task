@@ -11,6 +11,7 @@ import Navbar from "@/components/Navbar";
 import Web3ContextProvider from "@/contexts/Web3Context";
 import { NotificationProvider } from "@web3uikit/core";
 import Footer from "@/components/Footer";
+import RouteGuard from "@/components/RouteGuard";
 
 const { chains, provider } = configureChains([chain.ropsten], [alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]);
 
@@ -38,9 +39,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     <Web3Wrapper>
       <Web3ContextProvider>
         <NotificationProvider>
-          <Navbar />
-          <Component {...pageProps} />
-          <Footer />
+          <RouteGuard protectedRoutes={["/profile", "/mint"]}>
+            <Navbar />
+            <Component {...pageProps} />
+            <Footer />
+          </RouteGuard>
         </NotificationProvider>
       </Web3ContextProvider>
     </Web3Wrapper>
