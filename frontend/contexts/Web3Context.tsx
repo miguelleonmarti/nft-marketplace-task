@@ -1,21 +1,31 @@
 import { createContext, useState, useEffect } from "react";
 import { MyToken, MyToken__factory, MyNFT, MyNFT__factory } from "../lib/typechain-types";
-import { useSigner } from "wagmi";
+import { useSigner, useProvider } from "wagmi";
 import { app } from "../config";
+import { NftSwapV4 } from "@traderxyz/nft-swap-sdk";
 
 export interface Web3 {
   myTokenContract: MyToken;
   myNFTContract: MyNFT;
+  swapSdk: NftSwapV4;
 }
 
 export const Web3Context = createContext<Partial<Web3>>({});
 
 export default function Web3ContextProvider({ children }) {
-  const [{ myTokenContract, myNFTContract }, setWeb3] = useState<Web3>({} as Web3);
+  const [{ myTokenContract, myNFTContract, swapSdk }, setWeb3] = useState<Web3>({} as Web3);
   const { data } = useSigner();
+  const provider = useProvider();
 
   useEffect(() => {
     if (!data) return;
+
+    async function initSwapSdk() {
+      const sdk = new NftSwapV4(provider, data, 3, {
+        zeroExExchangeProxyContractAddress: app.zeroExExchangeProxyContractAddress,
+      });
+      setWeb3((prev: Web3) => ({ ...prev, swapSdk: sdk }));
+    }
 
     async function setContracts() {
       setWeb3((prev) => ({
@@ -25,8 +35,9 @@ export default function Web3ContextProvider({ children }) {
       }));
     }
 
+    initSwapSdk();
     setContracts();
-  }, [data]);
+  }, [data, provider]);
 
-  return <Web3Context.Provider value={{ myTokenContract, myNFTContract }}>{children}</Web3Context.Provider>;
+  return <Web3Context.Provider value={{ myTokenContract, myNFTContract, swapSdk }}>{children}</Web3Context.Provider>;
 }
