@@ -1,10 +1,11 @@
 import type { NextPage } from "next";
 import { useState, useEffect, useContext } from "react";
 import styles from "../styles/Home.module.scss";
-import { Table, Button, useNotification } from "@web3uikit/core";
+import { Table, Button } from "@web3uikit/core";
 import { Web3Context } from "../contexts/Web3Context";
 import { useAccount } from "wagmi";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
+import useNotifications from "../hooks/notifications";
 
 const BuyButton = ({ handleOnClick, signedOrder }) => {
   return <Button onClick={() => handleOnClick(signedOrder)} theme="secondary" size="large" text="Buy"></Button>;
@@ -14,7 +15,7 @@ const Home: NextPage = () => {
   const [orders, setOrders] = useState([]);
   const { swapSdk } = useContext(Web3Context);
   const { address } = useAccount();
-  const dispatch = useNotification();
+  const { notifyOrderFilled, notifyError } = useNotifications();
 
   function truncateEthAddress(address: string) {
     const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
@@ -53,20 +54,10 @@ const Home: NextPage = () => {
       const fillTxReceipt = await swapSdk.awaitTransactionHash(fillTx.hash);
       console.log({ fillTxReceipt });
       console.log(`🎉 🥳 Order filled. TxHash: ${fillTxReceipt.transactionHash}`);
-      dispatch({
-        type: "success",
-        message: "Item bought!",
-        title: "New Notification",
-        position: "topL",
-      });
+      notifyOrderFilled();
     } catch (error) {
       console.log({ error });
-      dispatch({
-        type: "error",
-        message: error.reason ?? error.message,
-        title: "New Notification",
-        position: "topL",
-      });
+      notifyError(error.reason ?? error.message);
     }
   }
 

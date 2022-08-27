@@ -1,6 +1,6 @@
 import styles from "./style.module.scss";
 import { useState, useEffect, useContext } from "react";
-import { Table, Button, Typography, Modal, useNotification } from "@web3uikit/core";
+import { Table, Button, Typography, Modal } from "@web3uikit/core";
 import { getNftsForOwner } from "../../utils/alchemy";
 import { useAccount } from "wagmi";
 import { app } from "../../config";
@@ -8,6 +8,7 @@ import { Web3Context } from "../../contexts/Web3Context";
 import SellModal from "../../components/SellModal";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import { truncateEthAddress } from "../../utils/address";
+import useNotifications from "../../hooks/notifications";
 
 const header: string[] = ["Address", "Token ID", "Actions"];
 
@@ -26,7 +27,7 @@ export default function Profile() {
   const [selectedNft, setSelectedNft] = useState<{ address: string; tokenId: string }>();
   const { address } = useAccount();
   const { swapSdk } = useContext(Web3Context);
-  const dispatch = useNotification();
+  const { notifyOrderCreated, notifyOrderCancelled, notifyError } = useNotifications();
 
   function formatNftData() {
     return nfts?.map(({ address, tokenId }) => {
@@ -81,19 +82,9 @@ export default function Profile() {
         }),
       });
       if (!response.ok) throw new Error("Database error");
-      dispatch({
-        type: "success",
-        message: "Order created!",
-        title: "New Notification",
-        position: "topL",
-      });
+      notifyOrderCreated();
     } catch (error) {
-      dispatch({
-        type: "error",
-        message: error.message,
-        title: "New Notification",
-        position: "topL",
-      });
+      notifyError(error.message);
     }
   }
 
@@ -104,20 +95,10 @@ export default function Profile() {
       await cancelTx.wait();
 
       setOrders((prev: any[]) => prev.filter((order) => order.nonce !== nonce));
-      dispatch({
-        type: "success",
-        message: "Order cancelled!",
-        title: "New Notification",
-        position: "topL",
-      });
+      notifyOrderCancelled();
     } catch (error) {
       console.log({ error });
-      dispatch({
-        type: "error",
-        message: error.reason ?? error.message,
-        title: "New Notification",
-        position: "topL",
-      });
+      notifyError(error.reason);
     }
   }
 
