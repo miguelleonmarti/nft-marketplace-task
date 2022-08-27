@@ -1,17 +1,24 @@
 import styles from "./style.module.scss";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
+import { useAccount } from "wagmi";
 
 export default function Navbar() {
+  const { isConnected } = useAccount();
+
   return (
     <nav className={styles.menu}>
       <ul>
-        <li>
-          <Link href={"/mint"}>Mint</Link>
-        </li>
-        <li>
-          <Link href={"/profile"}>Profile</Link>
-        </li>
+        {isConnected && (
+          <>
+            <li>
+              <Link href={"/mint"}>Mint</Link>
+            </li>
+            <li>
+              <Link href={"/profile"}>Profile</Link>
+            </li>
+          </>
+        )}
         <li className={styles.right}>
           <ConnectButton
             showBalance={{ smallScreen: false, largeScreen: false }}
