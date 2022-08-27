@@ -9,6 +9,8 @@ import SellModal from "../../components/SellModal";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import { truncateEthAddress } from "../../utils/address";
 import useNotifications from "../../hooks/notifications";
+import useOrderAPI from "../../hooks/useOrderAPI";
+import { Order } from "../../interfaces";
 
 const header: string[] = ["Address", "Token ID", "Actions"];
 
@@ -22,12 +24,13 @@ const CancelButton = ({ handleOnClick, nonce }) => {
 
 export default function Profile() {
   const [nfts, setNfts] = useState<{ address: string; tokenId: string }[]>();
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [isVisible, setIsVisible] = useState(false);
   const [selectedNft, setSelectedNft] = useState<{ address: string; tokenId: string }>();
   const { address } = useAccount();
   const { swapSdk } = useContext(Web3Context);
   const { notifyOrderCreated, notifyOrderCancelled, notifyError } = useNotifications();
+  const { createOrder, getOrders } = useOrderAPI();
 
   function formatNftData() {
     return nfts?.map(({ address, tokenId }) => {
@@ -66,21 +69,9 @@ export default function Profile() {
       }
 
       const order = swapSdk.buildOrder(nft, token, address, { expiry: Math.floor(Date.now() / 1000 + 3600 * 24) });
-      // console.log({ order });
-      // console.log("Going to sign order");
       const signedOrder = await swapSdk.signOrder(order);
-      // console.log("Sell order signed:", signedOrder);
-      // delete signedOrder.fees;
-      // delete signedOrder["erc721TokenProperties"];
-      const response = await fetch("/api/order", {
-        method: "POST",
-        body: JSON.stringify({
-          ...signedOrder,
-          erc721TokenId: Number(signedOrder["erc721TokenId"]),
-          erc20TokenAmount: Number(signedOrder.erc20TokenAmount),
-          expiry: Number(signedOrder.expiry),
-        }),
-      });
+
+      const response = await createOrder(signedOrder as Order);
       if (!response.ok) throw new Error("Database error");
       notifyOrderCreated();
     } catch (error) {
@@ -91,7 +82,6 @@ export default function Profile() {
   async function handleCancel(nonce: string) {
     try {
       const cancelTx = await swapSdk.cancelOrder(BigInt(nonce), "ERC721");
-      // console.log("Cancel transaction:", tx.hash);
       await cancelTx.wait();
 
       setOrders((prev: any[]) => prev.filter((order) => order.nonce !== nonce));
@@ -114,15 +104,14 @@ export default function Profile() {
       setNfts(validNfts);
     }
 
-    async function getOrders() {
-      const response = await fetch("/api/orders");
-      const orders = await response.json();
+    async function getOrdersData() {
+      const orders: Order[] = await getOrders();
       setOrders(orders);
     }
 
     getNfts();
-    getOrders();
-  }, [address]);
+    getOrdersData();
+  }, [address, getOrders]);
 
   return (
     <section className={styles.profile}>

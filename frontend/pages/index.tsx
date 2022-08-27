@@ -7,16 +7,19 @@ import { useAccount } from "wagmi";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import useNotifications from "../hooks/notifications";
 import { truncateEthAddress } from "../utils/address";
+import useOrderAPI from "../hooks/useOrderAPI";
+import { Order } from "../interfaces";
 
 const BuyButton = ({ handleOnClick, signedOrder }) => {
   return <Button onClick={() => handleOnClick(signedOrder)} theme="secondary" size="large" text="Buy"></Button>;
 };
 
 const Home: NextPage = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const { swapSdk } = useContext(Web3Context);
   const { address } = useAccount();
   const { notifyOrderFilled, notifyError } = useNotifications();
+  const { getOrders } = useOrderAPI();
 
   async function handleBuy(signedOrder: any) {
     try {
@@ -71,14 +74,13 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (!address) return;
 
-    async function getOrders() {
-      const response = await fetch("/api/orders");
-      const orders = await response.json();
+    async function getOrdersData() {
+      const orders: Order[] = await getOrders();
       setOrders(orders);
     }
 
-    getOrders();
-  }, [address]);
+    getOrdersData();
+  }, [address, getOrders]);
 
   return (
     <section className={styles.main}>
