@@ -7,6 +7,7 @@ import { app } from "../../config";
 import { Web3Context } from "../../contexts/Web3Context";
 import SellModal from "../../components/SellModal";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
+import { truncateEthAddress } from "../../utils/address";
 
 const header: string[] = ["Address", "Token ID", "Actions"];
 
@@ -26,13 +27,6 @@ export default function Profile() {
   const { address } = useAccount();
   const { swapSdk } = useContext(Web3Context);
   const dispatch = useNotification();
-
-  function truncateEthAddress(address: string) {
-    const truncateRegex = /^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/;
-    const match = address.match(truncateRegex);
-    if (!match) return address;
-    return `${match[1]}…${match[2]}`;
-  }
 
   function formatNftData() {
     return nfts?.map(({ address, tokenId }) => {
