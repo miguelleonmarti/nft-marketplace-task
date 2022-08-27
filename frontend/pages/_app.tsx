@@ -11,7 +11,7 @@ import Navbar from "../components/Navbar";
 import Web3ContextProvider from "../contexts/Web3Context";
 import { NotificationProvider } from "@web3uikit/core";
 
-const { chains, provider } = configureChains([chain.goerli], [alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]);
+const { chains, provider } = configureChains([chain.ropsten], [alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]);
 
 const { connectors } = getDefaultWallets({ appName: app.name, chains });
 
