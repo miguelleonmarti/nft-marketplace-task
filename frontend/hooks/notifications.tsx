@@ -6,6 +6,8 @@ export default function useNotifications(): {
   notifyOrderFilled: () => void;
   notifyError: (message: string) => void;
   notifyNoWalletConnection: () => void;
+  notifyTokenMinted: () => void;
+  notifyNFTMinted: () => void;
 } {
   const dispatch = useNotification();
 
@@ -40,5 +42,7 @@ export default function useNotifications(): {
       }),
     notifyNoWalletConnection: () =>
       dispatch({ type: "info", message: "You have to connect your wallet", title: "New Notification", position: "topL" }),
+    notifyTokenMinted: () => dispatch({ type: "info", message: "Token minted!", title: "New Notification", position: "topL" }),
+    notifyNFTMinted: () => dispatch({ type: "info", message: "NFT minted!", title: "New Notification", position: "topL" }),
   };
 }

@@ -1,55 +1,15 @@
-import { useState, useContext } from "react";
 import styles from "./style.module.scss";
-import { Card, Illustration, Button, IllustrationProps, useNotification, notifyType, IPosition } from "@web3uikit/core";
-import { Web3Context } from "@/contexts/Web3Context";
-
-enum MintOption {
-  NONE,
-  ERC20,
-  ERC721,
-}
-
-const cards: { type: MintOption; title: string; props: IllustrationProps }[] = [
-  { type: MintOption.ERC20, title: "ERC20", props: { logo: "token", height: "180px", width: "100%" } },
-  { type: MintOption.ERC721, title: "ERC721", props: { logo: "lazyNft", height: "180px", width: "100%" } },
-];
+import { Card, Illustration, Button, IllustrationProps } from "@web3uikit/core";
+import useMint from "@/hooks/useMint";
+import { MintOption } from "enums";
 
 export default function Mint() {
-  const [selected, setSelected] = useState<MintOption>(MintOption.NONE);
-  const { myTokenContract, myNFTContract } = useContext(Web3Context);
+  const { selected, setSelected, handleMint } = useMint();
 
-  const dispatch = useNotification();
-
-  const onMint = {
-    [MintOption.ERC20]: async () => {
-      await myTokenContract.mint(1);
-      handleNewNotification("Token minted!", "success", undefined, "topL");
-    },
-    [MintOption.ERC721]: async () => {
-      await myNFTContract.mint(1);
-      handleNewNotification("NFT minted!", "success", undefined, "topL");
-    },
-  };
-
-  async function handleMint() {
-    try {
-      await onMint[selected]();
-    } catch (error) {
-      handleNewNotification(error.message, "error", undefined, "topL");
-    } finally {
-      setSelected(MintOption.NONE);
-    }
-  }
-
-  const handleNewNotification = (message: string, type: notifyType, icon?: React.ReactElement, position?: IPosition) => {
-    dispatch({
-      type,
-      message,
-      title: "New Notification",
-      icon,
-      position: position || "topR",
-    });
-  };
+  const cards: { type: MintOption; title: string; props: IllustrationProps }[] = [
+    { type: MintOption.ERC20, title: "ERC20", props: { logo: "token", height: "180px", width: "100%" } },
+    { type: MintOption.ERC721, title: "ERC721", props: { logo: "lazyNft", height: "180px", width: "100%" } },
+  ];
 
   function renderCards() {
     return cards.map(({ type, title, props }) => (
