@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
-import useNotifications from "@/hooks/notifications";
+import useNotifications from "@/hooks/useNotifications";
 
 export default function RouteGuard({ protectedRoutes, children }) {
   const router = useRouter();

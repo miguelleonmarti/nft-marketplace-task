@@ -8,7 +8,7 @@ import { Web3Context } from "@/contexts/Web3Context";
 import SellModal from "@/components/SellModal";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import { truncateEthAddress } from "@/utils/address";
-import useNotifications from "@/hooks/notifications";
+import useNotifications from "@/hooks/useNotifications";
 import useOrderAPI from "@/hooks/useOrderAPI";
 import { Order } from "@/interfaces/index";
 

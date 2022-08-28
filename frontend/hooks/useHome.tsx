@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Web3Context } from "@/contexts/Web3Context";
-import useNotifications from "@/hooks/notifications";
+import useNotifications from "@/hooks/useNotifications";
 import { useAccount } from "wagmi";
 import { SwappableAssetV4 } from "@traderxyz/nft-swap-sdk";
 import { Order } from "@/interfaces/index";

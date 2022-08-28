@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Web3Context } from "@/contexts/Web3Context";
-import useNotifications from "./notifications";
+import useNotifications from "./useNotifications";
 import { MintOption } from "../enums";
 
 export default function useMint() {
