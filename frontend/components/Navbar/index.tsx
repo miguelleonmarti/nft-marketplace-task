@@ -11,6 +11,9 @@ export default function Navbar() {
       <ul>
         {isConnected && (
           <>
+            <li className={styles.left}>
+              <Link href={"/"}>Home</Link>
+            </li>
             <li>
               <Link href={"/mint"}>Mint</Link>
             </li>

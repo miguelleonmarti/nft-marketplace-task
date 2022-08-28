@@ -8,8 +8,12 @@
         justify-content: flex-end;
 
         li {
-            margin: 1rem;
+            margin: 0.75rem;
             list-style-type: none;
+
+            &.left {
+                margin-right: auto;
+            }
         }
     }
 }
