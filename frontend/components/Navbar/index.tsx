@@ -12,13 +12,13 @@ export default function Navbar() {
         {isConnected && (
           <>
             <li className={styles.left}>
-              <Link href={"/"}>Home</Link>
+              <Link href={"/"}>HOME</Link>
             </li>
             <li>
-              <Link href={"/mint"}>Mint</Link>
+              <Link href={"/mint"}>MINT</Link>
             </li>
             <li>
-              <Link href={"/profile"}>Profile</Link>
+              <Link href={"/profile"}>PROFILE</Link>
             </li>
           </>
         )}
