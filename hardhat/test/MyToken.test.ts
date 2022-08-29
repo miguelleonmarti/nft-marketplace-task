@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 import { expect } from "chai";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { MyToken } from "../typechain-types";
+import { MyToken, MyToken__factory } from "../typechain-types";
 
 describe("MyToken", function () {
   const INITIAL_SUPPLY = 100;
@@ -11,7 +11,7 @@ describe("MyToken", function () {
   let owner: SignerWithAddress, otherAccounts: SignerWithAddress[], contract: MyToken;
 
   before(async function () {
-    const Contract = await ethers.getContractFactory(TOKEN_NAME);
+    const Contract = (await ethers.getContractFactory(TOKEN_NAME)) as MyToken__factory;
     contract = await Contract.deploy(INITIAL_SUPPLY, TOKEN_NAME, TOKEN_SYMBOL);
     [owner, ...otherAccounts] = await ethers.getSigners();
     await contract.deployed();
