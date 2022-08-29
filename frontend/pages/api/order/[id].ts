@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  if (req.headers.authorization !== process.env.API_TOKEN) return res.status(401).send("Unauthorized");
+  if (req.headers.authorization !== process.env.NEXT_PUBLIC_API_TOKEN) return res.status(401).send("Unauthorized");
   const { id } = req.query;
   if (req.method === "GET") return handleGET(Number(id), res);
   else if (req.method === "DELETE") return handleDELETE(Number(id), res);
