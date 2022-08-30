@@ -1,5 +1,5 @@
 export interface Order {
-  verifyingContract: string;
+  id: number;
   direction?: number;
   erc20Token: string;
   erc20TokenAmount: number;

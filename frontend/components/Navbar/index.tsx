@@ -2,23 +2,40 @@ import styles from "./style.module.scss";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 import { useAccount } from "wagmi";
+import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { User, Home, Stars } from "@web3uikit/icons";
 
 export default function Navbar() {
   const { isConnected } = useAccount();
+  const { pathname } = useRouter();
+  const [isHome, setIsHome] = useState(true);
+
+  useEffect(() => {
+    setIsHome(pathname === "/");
+  }, [pathname]);
 
   return (
     <nav className={styles.menu}>
       <ul>
         {isConnected && (
           <>
-            <li className={styles.left}>
-              <Link href={"/"}>HOME</Link>
+            {!isHome && (
+              <li className={styles.left}>
+                <Link href={"/"}>
+                  <Home fontSize="25px" style={{ cursor: "pointer" }} />
+                </Link>
+              </li>
+            )}
+            <li>
+              <Link href={"/mint"}>
+                <Stars fontSize="25px" style={{ cursor: "pointer" }} />
+              </Link>
             </li>
             <li>
-              <Link href={"/mint"}>MINT</Link>
-            </li>
-            <li>
-              <Link href={"/profile"}>PROFILE</Link>
+              <Link href={"/profile"}>
+                <User fontSize="25px" style={{ cursor: "pointer" }} />
+              </Link>
             </li>
           </>
         )}

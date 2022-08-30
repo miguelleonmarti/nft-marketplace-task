@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import styles from "../styles/Home.module.scss";
-import { Table } from "@web3uikit/core";
+import { Table, Typography } from "@web3uikit/core";
 import useHome from "@/hooks/useHome";
 
 const Home: NextPage = () => {
@@ -8,6 +8,9 @@ const Home: NextPage = () => {
 
   return (
     <section className={styles.main}>
+      <Typography variant="h2" style={{ margin: "1rem" }}>
+        Orders
+      </Typography>
       <Table
         columnsConfig="2fr 2fr 2fr 2fr 2fr"
         isLoading={!orders}

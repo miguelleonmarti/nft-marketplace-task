@@ -15,7 +15,6 @@ export default function SellModal({ isVisible, setIsVisible, tokenAddress, token
         hasCancel={false}
         onCloseButtonPressed={() => setIsVisible(false)}
         onOk={() => {
-          console.log("ok");
           setIsVisible(false);
           onSell(tokenAddress, tokenId, price);
         }}

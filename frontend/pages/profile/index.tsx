@@ -16,8 +16,8 @@ const SellButton = ({ handleOnClick, tokenAddress, tokenId }) => {
   return <Button onClick={() => handleOnClick(tokenAddress, tokenId)} theme="secondary" size="large" text="Sell"></Button>;
 };
 
-const CancelButton = ({ handleOnClick, nonce }) => {
-  return <Button onClick={() => handleOnClick(nonce)} theme="secondary" size="large" text="Cancel"></Button>;
+const CancelButton = ({ handleOnClick, nonce, id }) => {
+  return <Button onClick={() => handleOnClick(nonce, id)} theme="secondary" size="large" text="Cancel"></Button>;
 };
 
 export default function Profile() {
@@ -28,7 +28,7 @@ export default function Profile() {
   const { address } = useAccount();
   const { swapSdk } = useContext(Web3Context);
   const { notifyOrderCreated, notifyOrderCancelled, notifyError } = useNotifications();
-  const { createOrder, getOrders } = useOrderAPI();
+  const { createOrder, getOrders, deleteOrder } = useOrderAPI();
 
   function formatNftData() {
     return nfts?.map(({ address, tokenId }) => {
@@ -39,12 +39,12 @@ export default function Profile() {
   function formatOrderData() {
     return orders
       .filter(({ maker }) => address.toLowerCase() === maker)
-      .map(({ erc20Token, erc20TokenAmount, erc721Token, erc721TokenId, nonce }) => [
+      .map(({ erc20Token, erc20TokenAmount, erc721Token, erc721TokenId, nonce, id }) => [
         truncateEthAddress(erc721Token),
         erc721TokenId,
         truncateEthAddress(erc20Token),
         erc20TokenAmount,
-        <CancelButton key={nonce} handleOnClick={handleCancel} nonce={nonce} />,
+        <CancelButton key={nonce} handleOnClick={handleCancel} nonce={nonce} id={id} />,
       ]);
   }
 
@@ -77,15 +77,17 @@ export default function Profile() {
     }
   }
 
-  async function handleCancel(nonce: string) {
+  async function handleCancel(nonce: string, id: number) {
     try {
       const cancelTx = await swapSdk.cancelOrder(BigInt(nonce), "ERC721");
       await cancelTx.wait();
 
+      const response = await deleteOrder(id);
+      if (!response.ok) throw new Error("Database error");
+
       setOrders((prev: any[]) => prev.filter((order) => order.nonce !== nonce));
       notifyOrderCancelled();
     } catch (error) {
-      console.log({ error });
       notifyError(error.reason);
     }
   }

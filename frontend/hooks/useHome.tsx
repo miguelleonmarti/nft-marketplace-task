@@ -8,8 +8,8 @@ import useOrderAPI from "./useOrderAPI";
 import { Button } from "@web3uikit/core";
 import { truncateEthAddress } from "@/utils/address";
 
-const BuyButton = ({ handleOnClick, signedOrder }) => {
-  return <Button onClick={() => handleOnClick(signedOrder)} theme="secondary" size="large" text="Buy"></Button>;
+const BuyButton = ({ handleOnClick, signedOrder, address }) => {
+  return <Button onClick={() => handleOnClick(signedOrder)} disabled={!address} theme="secondary" size="large" text="Buy"></Button>;
 };
 
 export default function useHome() {
@@ -47,7 +47,6 @@ export default function useHome() {
       console.log(`🎉🥳 Order filled. TxHash: ${fillTxReceipt.transactionHash}`);
       notifyOrderFilled();
     } catch (error) {
-      console.log({ error });
       notifyError(error.reason ?? error.message);
     }
   }
@@ -60,7 +59,7 @@ export default function useHome() {
         order.erc721TokenId,
         truncateEthAddress(order.erc20Token),
         order.erc20TokenAmount,
-        <BuyButton key={order.nonce} handleOnClick={handleBuy} signedOrder={order} />,
+        <BuyButton key={order.nonce} handleOnClick={handleBuy} signedOrder={order} address={address} />,
       ]);
   }
 
