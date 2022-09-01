@@ -1,6 +1,6 @@
 # NFT Marketplace 🛒
 
-[![Hardhat Tests](https://github.com/miguelleonmarti/nft-marketplace-task/actions/workflows/hardhat_tests.yml/badge.svg)](https://github.com/miguelleonmarti/nft-marketplace-task/actions/workflows/hardhat_tests.yml)
+[![Hardhat Tests](https://github.com/miguelleonmarti/nft-marketplace-task/actions/workflows/hardhat_tests.yml/badge.svg)](https://github.com/miguelleonmarti/nft-marketplace-task/actions/workflows/hardhat_tests.yml) ![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=nft-marketplace-0x-brown)
 
 Marketplace to sell and buy NFTs (ERC721) with ERC20 tokens through the [0x v4 protocol].
 
