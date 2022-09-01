@@ -4,6 +4,8 @@
 
 Marketplace to sell and buy NFTs (ERC721) with ERC20 tokens through the [0x v4 protocol].
 
+![Website Image](./public/assets/images/website.png)
+
 ## Get started
 
 In order to run the project locally follow the next steps:
