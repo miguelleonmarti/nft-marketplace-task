@@ -1,5 +1,7 @@
 # NFT Marketplace 🛒
 
+[![Hardhat Tests](https://github.com/miguelleonmarti/nft-marketplace-task/actions/workflows/hardhat_tests.yml/badge.svg)](https://github.com/miguelleonmarti/nft-marketplace-task/actions/workflows/hardhat_tests.yml)
+
 Marketplace to sell and buy NFTs (ERC721) with ERC20 tokens through the [0x v4 protocol].
 
 ## Get started
@@ -8,17 +10,28 @@ In order to run the project locally follow the next steps:
 
 ### Hardhat
 
-- Install dependencies & run tests
+- Install dependencies
 
 ```sh
-cd hardhat && npm install && npx hardhat test
+cd hardhat && npm install
 ```
 
 - To compile the contracts and generate typechain typings for compiled contracts:
 
 ```sh
 npx hardhat clean && npx hardhat compile && npx hardhat typechain
+```
+
+- (Optional) You need to copy and paste the Typechain typings generated to the frontend directory so the Dapp works. There is already a script for that:
+
+```sh
 npm run typechain
+```
+
+- Run tests:
+
+```sh
+npx hardhat test
 ```
 
 ### Frontend
