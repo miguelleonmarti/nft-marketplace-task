@@ -1,6 +1,6 @@
 # NFT Marketplace 🛒
 
-Marketplace to sell and buy NFTs (ERC721) with ERC20 tokens through the 0x v4 protocol.
+Marketplace to sell and buy NFTs (ERC721) with ERC20 tokens through the [0x v4 protocol].
 
 ## Get started
 
@@ -21,7 +21,7 @@ npx hardhat clean && npx hardhat compile && npx hardhat typechain
 npm run typechain
 ```
 
-### Fronted
+### Frontend
 
 In order to run the project locally follow the next steps:
 
@@ -37,7 +37,7 @@ cd frontend && npm install
 docker compose up -d
 ```
 
-- Create migrations from your Prisma schema, apply them to the database, generate artifacts:
+- Create migrations from the Prisma schema, apply them to the database and generate artifacts:
 
 ```sh
 npx prisma migrate dev --preview-feature
