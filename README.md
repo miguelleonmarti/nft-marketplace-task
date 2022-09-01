@@ -6,11 +6,9 @@ Marketplace to sell and buy NFTs (ERC721) with ERC20 tokens through the [0x v4 p
 
 ![Website Image](./public/assets/images/website.png)
 
-## Get started
+## Hardhat ⛓
 
-In order to run the project locally follow the next steps:
-
-### Hardhat
+### Setup
 
 - Install dependencies
 
@@ -36,7 +34,19 @@ npm run typechain
 npx hardhat test
 ```
 
-### Frontend
+## Frontend 💻
+
+### Tools
+
+- [NextJS] : React Framework
+- [Prisma] : Node.js and TypeScript ORM
+- [PostgreSQL] : Open Source Relational Database
+- [RainbowKit] : Connect Wallet Button
+- [Web3UIKit] : UI Components
+- [wagmi] : React Hooks for Ethereum
+- [NFT Swap SDK] : P2P Swap Library powered by the 0x protocol
+
+### Installation
 
 In order to run the project locally follow the next steps:
 
@@ -64,6 +74,8 @@ npx prisma migrate dev --preview-feature
 npm run dev
 ```
 
+Open http://localhost:3000 with your browser to see the website
+
 ## Features
 
 - Users can **request new NFT tokens** to be minted, no restrictions here, anyone can request new NFT minting free-of-charge
@@ -79,3 +91,10 @@ npm run dev
 [0x v4 protocol]: https://docs.0x.org/nft-support/docs/introduction
 [azuki]: https://github.com/chiru-labs/ERC721A
 [openzeppelin]: https://docs.openzeppelin.com/contracts/4.x/erc20
+[nextjs]: https://nextjs.org/
+[prisma]: https://www.prisma.io/
+[postgresql]: https://www.postgresql.org/
+[rainbowkit]: https://www.rainbowkit.com/
+[web3uikit]: https://github.com/web3ui/web3uikit
+[wagmi]: https://wagmi.sh/
+[nft swap sdk]: https://github.com/trader-xyz/nft-swap-sdk
