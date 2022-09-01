@@ -26,5 +26,9 @@ jobs:
           cache: "npm"
       - name: Setup
         run: npm ci
+      - name: Compile contracts
+        run: npx hardhat compile
+      - name: Generate Typechain typings for compile contracts
+        run: npx hardhat typechain
       - name: Tests
         run: npx hardhat test
