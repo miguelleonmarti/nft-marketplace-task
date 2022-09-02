@@ -31,9 +31,17 @@ export default function Profile() {
   const { createOrder, getOrders, deleteOrder } = useOrderAPI();
 
   function formatNftData() {
-    return nfts?.map(({ address, tokenId }) => {
-      return [address, tokenId, <SellButton key={address + tokenId} handleOnClick={openModal} tokenId={tokenId} tokenAddress={address} />];
-    });
+    return nfts
+      ?.filter(({ tokenId }) => {
+        return !orders.some((order) => order.erc721TokenId === Number(tokenId));
+      })
+      .map(({ address, tokenId }) => {
+        return [
+          address,
+          tokenId,
+          <SellButton key={address + tokenId} handleOnClick={openModal} tokenId={tokenId} tokenAddress={address} />,
+        ];
+      });
   }
 
   function formatOrderData() {
