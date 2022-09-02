@@ -17,7 +17,7 @@ export default function useHome() {
   const { address } = useAccount();
   const { swapSdk } = useContext(Web3Context);
   const { notifyOrderFilled, notifyError } = useNotifications();
-  const { getOrders } = useOrderAPI();
+  const { getOrders, deleteOrder } = useOrderAPI();
 
   async function handleBuy(signedOrder: any) {
     try {
@@ -30,6 +30,7 @@ export default function useHome() {
         console.log(`🎉🥳 Approved ${token.tokenAddress} contract to swap with 0x. TxHash: ${approvalTxReceipt.transactionHash})`);
       }
 
+      const id = signedOrder.id;
       ["createdAt", "updatedAt", "id", "verifyingContract"].forEach((k) => delete signedOrder[k]);
 
       const fillTx = await swapSdk.fillSignedOrder(
@@ -43,8 +44,10 @@ export default function useHome() {
         {},
         { gasLimit: BigInt(300000) }
       );
-      const fillTxReceipt = await swapSdk.awaitTransactionHash(fillTx.hash);
-      console.log(`🎉🥳 Order filled. TxHash: ${fillTxReceipt.transactionHash}`);
+      const { transactionHash, type } = await swapSdk.awaitTransactionHash(fillTx.hash);
+      if (!type) throw new Error("Transaction failure");
+      console.log(`🎉🥳 Order filled. TxHash: ${transactionHash}`);
+      await deleteOrder(id);
       notifyOrderFilled();
     } catch (error) {
       notifyError(error.reason ?? error.message);

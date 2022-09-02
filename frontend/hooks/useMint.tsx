@@ -10,11 +10,15 @@ export default function useMint() {
 
   const onMint = {
     [MintOption.ERC20]: async () => {
-      await myTokenContract.mint(1);
+      const { type, hash } = await myTokenContract.mint(1);
+      if (!type) throw new Error("Transaction failure");
+      console.log(`🎉🥳 Token minted. TxHash: ${hash}`);
       notifyTokenMinted();
     },
     [MintOption.ERC721]: async () => {
-      await myNFTContract.mint(1);
+      const { type, hash } = await myNFTContract.mint(1);
+      if (!type) throw new Error("Transaction failure");
+      console.log(`🎉🥳 NFT minted. TxHash: ${hash}`);
       notifyNFTMinted();
     },
   };
