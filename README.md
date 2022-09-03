@@ -16,6 +16,14 @@ Marketplace to sell and buy NFTs (ERC721) with ERC20 tokens through the [0x v4 p
 cd hardhat && npm install
 ```
 
+- Create .env file (like .env.example) with your keys
+
+```sh
+INFURA_API_KEY=
+PRIVATE_KEY= # your account's private key in order to deploy contracts
+ETHERSCAN_API_KEY= # to verify the deployed contracts
+```
+
 - To compile the contracts and generate typechain typings for compiled contracts:
 
 ```sh
@@ -54,6 +62,19 @@ In order to run the project locally follow the next steps:
 
 ```sh
 cd frontend && npm install
+```
+
+- Create .env file (like .env.example) with your keys. You can omit setting database variables one by one and copy the database URL directly in `DATABASE_URL`. The `NEXT_PUBLIC_API_TOKEN` helps making the API routes private, only within the client.
+
+```sh
+ALCHEMY_API_KEY=
+DATABASE_HOST=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
+DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DATABASE_HOST}/${POSTGRES_DB}
+DATABASE_URL_WITH_SCHEMA=${DATABASE_URL}?schema=public
+NEXT_PUBLIC_API_TOKEN=
 ```
 
 - Create and start the docker container with the PostgreSQL database:
