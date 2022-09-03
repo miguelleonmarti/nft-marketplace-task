@@ -48,6 +48,7 @@ export default function useHome() {
       if (!type) throw new Error("Transaction failure");
       console.log(`🎉🥳 Order filled. TxHash: ${transactionHash}`);
       await deleteOrder(id);
+      setOrders((prev) => prev.filter((o) => !o.id));
       notifyOrderFilled();
     } catch (error) {
       notifyError(error.reason ?? error.message);
